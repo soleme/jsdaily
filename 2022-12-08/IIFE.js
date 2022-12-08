@@ -71,3 +71,17 @@ const Counter = (function counterIIFE(){
 console.log(Counter.getCurrentValue());
 console.log(Counter.increaseValue());
 console.log(Counter.decreaseValue());
+
+console.log("----------------------");
+
+(function square(x){
+    console.log(x*x);
+})(2);
+
+/**
+ * 즉시 실행 함수도 함수이기 때문에, 변수에 즉시 실행 함수 저장이 가능함.
+ */
+(mySquare = function (x){
+    console.log(x*x);
+})(2);
+mySquare(3);
