@@ -1,0 +1,124 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:layout="sap.ui.layout">
+	<Dialog  contentWidth="950px" contentHeight="50%" resizable="true" draggable="true">
+        <customHeader >
+            <Bar>
+                <contentMiddle>
+                     <Title text="{i18n>search}" class="fontBold"/>
+                </contentMiddle>
+                <contentRight>
+                    <VBox height="44px" > 
+                        <Button type="Transparent"  icon="sap-icon://decline" press="onCloseSearchDialog"/>
+                    </VBox>
+                </contentRight>
+            </Bar>
+        </customHeader>
+		<content>
+			<Panel>
+				<content>
+                    <OverflowToolbar class="empDiaglogOVF">
+                        <content>
+                            <ComboBox id="SearchTypeCombo"
+                                width="163.08px"
+                                selectedKey="{/searchType}">
+                                <items>
+                                    <core:Item  text="{i18n>name}"
+                                        key="0"/>
+                                    <core:Item  text="{i18n>UserId}"
+                                        key="1"/>
+                                    <core:Item  text="{i18n>department}"
+                                        key="2"/>
+                                </items>
+                            </ComboBox>
+                            <SearchField width="425.81px" search="_handleValueHelpSearch" placeholder="{i18n>placeHDText}" />
+                        </content>
+                    </OverflowToolbar>
+                    <Table
+                        id="EmpSearchTable"
+                        noDataText="{i18n>noData5}"
+                        mode="MultiSelect"
+                        selectionChange="handleItemPress"
+                        inset="false"
+                        items="{
+                            path: '/userData',
+                            sorter: {
+                                path: 'Name'
+                            }
+                        }">
+                        <infoToolbar>
+                            <OverflowToolbar id="SelectedStatTBAR" visible="false">
+                                <HBox>
+                                    <Label id="LTotal" text="Total: 0"/>
+                                    <Label text="/" class="mgL10" />
+                                    <Label id="LSelected" text="Selected: 0" class="mgL10" />
+                                </HBox>
+                            </OverflowToolbar>
+                        </infoToolbar>
+                        <columns>
+                            <Column minScreenWidth="Desktop" demandPopin="true">
+                                <header>
+                                    <Text text="{i18n>UserId}" />
+                                </header>
+                            </Column>
+                            <Column>
+                                <header>
+                                    <Text text="{i18n>name}" />
+                                </header>
+                            </Column>
+                            <Column minScreenWidth="Desktop" demandPopin="true">
+                                <header>
+                                    <Text text="{i18n>company}" />
+                                </header>
+                            </Column>
+                            <Column minScreenWidth="Desktop" demandPopin="true" >
+                                <header>
+                                    <Text text="{i18n>department}" />
+                                </header>
+                            </Column>
+                            <Column minScreenWidth="Desktop" demandPopin="true" >
+                                <header>
+                                    <Text text="{i18n>EmployeeType}" />
+                                </header>
+                            </Column>
+                            <Column minScreenWidth="Desktop" demandPopin="true">
+                                <header>
+                                    <Text text="{i18n>sTitle}" />
+                                </header>
+                            </Column>
+                                <Column minScreenWidth="Desktop" demandPopin="true">
+                                <header>
+                                    <Text text="{i18n>Role}" />
+                                </header>
+                            </Column>
+                                <Column minScreenWidth="Desktop" demandPopin="true">
+                                <header>
+                                    <Text text="{i18n>status}" />
+                                </header>
+                            </Column>
+                        </columns>
+                        <items>
+                            <ColumnListItem>
+                                <cells>
+                                    <Text text="{user}" />
+                                    <VBox>
+                                        <Text text="{lastName}" />
+                                        <Text text="{firstName}" />
+                                    </VBox>
+                                    <Text text="{custom08}" />
+                                    <Text text="{department}" />
+                                    <Text text="{custom11}" />
+                                    <Text text="{custom12}" />
+                                    <Text text="{custom02}" />
+                                    <Text text="{= ${status} === 't' ? ${i18n>jobType1}: ${i18n>jobType2}}" /> 
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+				</content>
+			</Panel>
+		</content>
+		<buttons>
+			<Button text="{i18n>ok}" press="onConfirmDialog" />
+			<Button text="{i18n>close}" press="onCloseSearchDialog"/>
+		</buttons>
+	</Dialog>
+</core:FragmentDefinition>
