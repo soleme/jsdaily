@@ -6,15 +6,15 @@ var array = [
     { seqNumber: "3", date:'2022-12-19',paycompvalue: 40000000 }
 ];
 
-function filterArray(array) {
-    return array.filter(function(element, index, self) {
-        return self.findIndex(function(t) {
-            return t.date === element.date && t.seqNumber > element.seqNumber;
-        }) === index;
-    });
-}
+//const arr = [{"name":"bathroom","value":54,"timeStamp":1562318089713},{"name":"bathroom","value":55,"timeStamp":1562318090807},{"name":"bedroom","value":48,"timeStamp":1562318092084},{"name":"bedroom","value":49,"timeStamp":1562318092223},{"name":"room","value":41,"timeStamp":1562318093467}]
 
-console.log(filterArray(array));
+const result = Object.values(array.reduce((r, o) => {
+    r[o.date] = (r[o.date] && r[o.date].seqNumber > o.seqNumber) ? r[o.date] : o
+
+    return r
+}, {}))
+
+console.log(result)
 
 // const result2 = [...array.reduce((r, o) => {
 //     const key = o.seqNumber + '-' + o.date;

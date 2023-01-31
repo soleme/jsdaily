@@ -1,18 +1,31 @@
-function diffDate(d1, d2) {
-    let sReturnData = "";
-    let dif = d2 - d1; // Calculate the difference in days
-    let elapsedDays = Math.floor(dif / 1000 / 60 / 60 / 24); // Calculate the number of years, months, and days
+function diffDate(date1, date2)
+{
+    var daysDiff = Math.ceil((Math.abs(date1 - date2)) / (1000 * 60 * 60 * 24));
 
-    let years = Math.floor(elapsedDays / 365);
-    let months = Math.floor((elapsedDays - (years * 365)) / 30);
-    let days = elapsedDays - (years * 365) - (months * 30); // Format the result as a string
+    var years = Math.floor(daysDiff / 365.25);
+    var remainingDays = Math.floor(daysDiff - (years * 365.25));
+    var months = Math.floor((remainingDays / 365.25) * 12);
+    var days = daysDiff > 30 ? Math.ceil(daysDiff - (years * 365.25 + (months / 12 * 365.25))) : Math.ceil(daysDiff - (years * 365.25 + (months / 12 * 365.25))) + 1;
 
-    sReturnData = `${years}년${months}개월${days}일`;
-
-    return sReturnData;
+    return {
+        daysAll: daysDiff,
+        years: years,
+        months: months,
+        days:days
+    }
 }
 
-let d1 = new Date('2022-01-01');
-let d2 = new Date('2022-01-29');
+console.log(diffDate(new Date('2022-01-01'), new Date('2022-12-13')));
+console.log(diffDate(new Date('2022-11-29'), new Date('2022-12-13')));
+console.log(diffDate(new Date('2022-11-22'), new Date('2022-12-13')));
+console.log(diffDate(new Date('2022-11-16'), new Date('2022-12-13')));
 
-console.log(diffDate(d1, d2));
+console.log(diffDate(new Date('2022-01-01'), new Date(new Date().setHours(0,0,0,0))));
+console.log(diffDate(new Date('2022-11-14'), new Date(new Date().setHours(0,0,0,0))));
+
+// 30일이 넘지않으면 그냥 new Date를 사용하고 30일이 넘으면
+
+// Sat Jan 01 2022 09:00:00 GMT+0900 (한국 표준시)
+//Tue Dec 13 2022 10:55:26 GMT+0900 (한국 표준시)
+
+//vOneData._hirePeriod = "("+Common._diffDate(oData.results[0].empInfo.originalStartDate, new Date(new Date().setHours(0,0,0,0)))+")";
