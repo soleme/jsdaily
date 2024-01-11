@@ -1,10 +1,7 @@
-// let [a, b, ... rest] = [1,2,3,4,5,6];
-//
-// console.log(a);
-// console.log(b);
-// console.log(rest);
+function convertTimestampToDateString(timestamp) {
+    let date = new Date(timestamp);
+    return date.toISOString().slice(0, 10); // YYYY-MM-DD 형식의 문자열 반환
+}
 
-let {a, bb, ...rest} = {a: 1, b:2, c:3, d:4};
-console.log(a);
-console.log(bb);
-console.log(rest);
+let result = convertTimestampToDateString(Date.now());
+console.log(result);
