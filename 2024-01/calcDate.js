@@ -14,4 +14,4 @@ function calDiffDay(startDate, endDate){
 }
 
 const result = calDiffDay(startDate, endDate);
-console.log(result)
+console.log(result);

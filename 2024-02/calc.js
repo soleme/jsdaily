@@ -1,0 +1,88 @@
+const data = [
+    {
+        createdAt: null,
+        createdBy: null,
+        modifiedAt: "2024-02-16T05:45:26.367Z",
+        modifiedBy: "anonymous",
+        year: "2024",
+        gubun: "10",
+        tempKey: "1708060644362",
+        code: "1",
+        value: "5.00",
+        eduGrade: "2060,2070",
+        remark: "",
+    },
+    {
+        createdAt: null,
+        createdBy: null,
+        modifiedAt: "2024-02-16T05:45:26.367Z",
+        modifiedBy: "anonymous",
+        year: "2024",
+        gubun: "10",
+        tempKey: "1708061390514",
+        code: "1",
+        value: "3.00",
+        eduGrade: "2020,2030,2040",
+        remark: "",
+    },
+    {
+        createdAt: null,
+        createdBy: null,
+        modifiedAt: "2024-02-16T05:45:26.367Z",
+        modifiedBy: "anonymous",
+        year: "2024",
+        gubun: "10",
+        tempKey: "1708061742362",
+        code: "2",
+        value: "4.00",
+        eduGrade: "0",
+        remark: "",
+    },
+    {
+        createdAt: null,
+        createdBy: null,
+        modifiedAt: "2024-02-16T05:45:26.367Z",
+        modifiedBy: "anonymous",
+        year: "2024",
+        gubun: "10",
+        tempKey: "1708061750675",
+        code: "3",
+        value: "3.00",
+        eduGrade: "0",
+        remark: "",
+    },
+    {
+        createdAt: null,
+        createdBy: null,
+        modifiedAt: "2024-02-16T05:45:26.367Z",
+        modifiedBy: "anonymous",
+        year: "2024",
+        gubun: "10",
+        tempKey: "1708061753742",
+        code: "4",
+        value: "2.00",
+        eduGrade: "0",
+        remark: "",
+    },
+    {
+        createdAt: null,
+        createdBy: null,
+        modifiedAt: "2024-02-16T05:45:26.367Z",
+        modifiedBy: "anonymous",
+        year: "2024",
+        gubun: "10",
+        tempKey: "1708061756169",
+        code: "5",
+        value: "1.00",
+        eduGrade: "0",
+        remark: "",
+    },
+];
+
+const element = data.find(item => item.eduGrade.split(',').includes('2020'));
+
+if (element) {
+    console.log(element.value); // '3.00'
+} else {
+    console.log('No matching element found.');
+}
