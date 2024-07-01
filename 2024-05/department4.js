@@ -1,4 +1,3 @@
-const _ = require('./lodash.min');
 const jsonData = [
     {
         "__metadata": {
@@ -947,235 +946,86 @@ const jsonData = [
     }
 ]
 
-// 코드1
-// function processDepartmentData(departmentData) {
-//     const departments = {};
-//
-//     departmentData.forEach(department => {
-//         const { externalCode, startDate, cust_legalEntity, parent, cust_orgLevel, name, status } = department;
-//
-//         if (!departments[externalCode]) {
-//             departments[externalCode] = {
-//                 externalCode,
-//                 startDate: new Date(startDate),
-//                 legalEntity: cust_legalEntity,
-//                 parent,
-//                 orgLevel: cust_orgLevel,
-//                 name,
-//                 status,
-//                 children: []
-//             };
-//         }
-//
-//         if (parent && departments[parent]) {
-//             departments[parent].children.push(departments[externalCode]);
-//         }
-//     });
-//
-//     return departments;
-// }
-//
-// function buildDepartmentTable(departmentHierarchy, level = 2) {
-//     const headers = ["externalCode", "parent", "name"];
-//     const levelHeaders = [];
-//     for (let i = level; i <= 7; i++) {
-//         levelHeaders.push(`level${i}`);
-//     }
-//     headers.push(...levelHeaders);
-//
-//     const rows = [];
-//
-//     function traverseHierarchy(departments, levelPrefix, parentCode) {
-//         for (const [externalCode, department] of Object.entries(departments)) {
-//             const row = {
-//                 externalCode,
-//                 parent: parentCode,
-//                 name: department.name
-//             };
-//
-//             row[`level${department.orgLevel}`] = department.name;
-//
-//             rows.push(row);
-//
-//             if (department.children.length > 0) {
-//                 traverseHierarchy(department.children, levelPrefix, externalCode);
-//             }
-//         }
-//     }
-//
-//     traverseHierarchy(departmentHierarchy, "", "");
-//
-//     return { headers, rows };
-// }
-//
-// const departmentHierarchy = processDepartmentData(jsonData);
-// const tableData = buildDepartmentTable(departmentHierarchy);
-//
-// console.log("부서 테이블 데이터:");
-// console.log(tableData);
+const dept =  [{
+        companyName: '에스피씨㈜',
+        parent: 'SPC_Lv1',
+        externalCode: 'SPC_Lv2',
+        level1: '',
+        level2: 'Dep_Lv2',
+        level3: '',
+        level4: '',
+        level5: '',
+        level6: '',
+        level7: '',
+        level8: ''
+    },
+    {
+        companyName: '에스피씨㈜',
+        parent: 'SPC_Lv2',
+        externalCode: 'SPC_Lv3',
+        level1: '',
+        level2: '',
+        level3: 'Dep_Lv3',
+        level4: '',
+        level5: '',
+        level6: '',
+        level7: '',
+        level8: ''
+    },
+    {
+        companyName: '에스피씨㈜',
+        parent: 'SPC_Lv2',
+        externalCode: 'SPC_Lv3',
+        level1: '',
+        level2: '',
+        level3: 'Dep_Lv3',
+        level4: '',
+        level5: '',
+        level6: '',
+        level7: '',
+        level8: ''
+    },
+    {
+        companyName: '에스피씨㈜',
+        parent: 'SPC_Lv3',
+        externalCode: 'SPC_Lv5',
+        level1: '',
+        level2: '',
+        level3: '',
+        level4: '',
+        level5: 'Test Depart',
+        level6: '',
+        level7: '',
+        level8: ''
+    }
+]
 
+const mergedData = dept.reduce((acc, item) => {
+    const existingItem = acc.find(i => i.companyName === item.companyName && i.externalCode === item.parent);
+    if (existingItem) {
+        existingItem.level2 = item.parent === existingItem.externalCode ? item.level2 : existingItem.level2;
+        existingItem.level3 = item.parent === existingItem.externalCode ? item.level3 : existingItem.level3;
+        existingItem.level4 = item.parent === existingItem.externalCode ? item.level4 : existingItem.level4;
+        existingItem.level5 = item.parent === existingItem.externalCode ? item.level5 : existingItem.level5;
+        existingItem.level6 = item.parent === existingItem.externalCode ? item.level6 : existingItem.level6;
+        existingItem.level7 = item.parent === existingItem.externalCode ? item.level7 : existingItem.level7;
+        existingItem.level8 = item.parent === existingItem.externalCode ? item.level8 : existingItem.level8;
+    } else {
+        acc.push({
+            companyName: item.companyName,
+            externalCode: item.externalCode,
+            parent: item.parent,
+            level1: item.level1,
+            level2: item.level2,
+            level3: item.level3,
+            level4: item.level4,
+            level5: item.level5,
+            level6: item.level6,
+            level7: item.level7,
+            level8: item.level8
+        });
+    }
+    return acc;
+}, []);
 
-// 코드2
-function processDepartmentData(departmentData) {
-    const departments = {};
-
-    departmentData.forEach(department => {
-        const { externalCode, startDate, cust_legalEntity, parent, cust_orgLevel, name, status } = department;
-
-        if (!departments[externalCode]) {
-            departments[externalCode] = {
-                externalCode,
-                startDate: new Date(startDate),
-                legalEntity: cust_legalEntity,
-                parent,
-                orgLevel: cust_orgLevel,
-                name,
-                status,
-                children: []
-            };
-        }
-
-        if (parent && departments[parent]) {
-            departments[parent].children.push(departments[externalCode]);
-        }
-    });
-
-    return departments;
-}
-
-const departmentHierarchy = processDepartmentData(jsonData);
-
-console.log("부서 계층 구조:");
-console.log(JSON.stringify(departmentHierarchy, null, 2));
-
-// 코드3
-// function processDepartmentData(departmentData) {
-//     const departments = [];
-//     const rootDepartments = [];
-//     const departmentLevels = {};
-//
-//     departmentData.forEach(department => {
-//         const { externalCode, startDate, cust_legalEntity, parent, cust_orgLevel, name, status } = department;
-//
-//         departments.push({
-//             externalCode,
-//             startDate: new Date(startDate),
-//             legalEntity: cust_legalEntity,
-//             parent,
-//             orgLevel: cust_orgLevel,
-//             name,
-//             status
-//         });
-//
-//         if (!departmentLevels[cust_orgLevel]) {
-//             departmentLevels[cust_orgLevel] = [];
-//         }
-//         departmentLevels[cust_orgLevel].push({
-//             externalCode,
-//             name
-//         });
-//
-//         if (!parent) {
-//             rootDepartments.push({
-//                 externalCode,
-//                 name,
-//                 description: "부모 부서가 없는 루트 부서입니다."
-//             });
-//         }
-//     });
-//
-//     return {
-//         departments,
-//         rootDepartments,
-//         departmentLevels
-//     };
-// }
-//
-// const { departments, rootDepartments, departmentLevels } = processDepartmentData(jsonData);
-// console.log(departments);
-// console.log("루트 부서:");
-// console.log(rootDepartments);
-// console.log("부서 레벨:");
-// console.log(departmentLevels);
-
-// function processDepartmentData(departmentData) {
-//     const departments = [];
-//     const rootDepartments = [];
-//     const departmentLevels = {};
-//
-//     departmentData.forEach(department => {
-//         const { externalCode, startDate, cust_legalEntity, parent, cust_orgLevel, name, status } = department;
-//
-//         departments.push({
-//             externalCode,
-//             startDate: new Date(startDate),
-//             legalEntity: cust_legalEntity,
-//             parent,
-//             orgLevel: cust_orgLevel,
-//             name,
-//             status
-//         });
-//
-//         if (!departmentLevels[cust_orgLevel]) {
-//             departmentLevels[cust_orgLevel] = [];
-//         }
-//         departmentLevels[cust_orgLevel].push({
-//             externalCode,
-//             name
-//         });
-//
-//         if (!parent) {
-//             rootDepartments.push({
-//                 externalCode,
-//                 name
-//             });
-//         }
-//     });
-//
-//     return {
-//         departments,
-//         rootDepartments,
-//         departmentLevels
-//     };
-// }
-
-// const { departments, rootDepartments, departmentLevels } = processDepartmentData(jsonData);
-// //console.log(departments);
-// console.log("Root Departments:", rootDepartments);
-// console.log(departmentLevels);
-
-// function processDepartmentData(departmentData) {
-//     const departments = [];
-//     const departmentLevels = {};
-//
-//     departmentData.forEach(department => {
-//         const { externalCode, startDate, cust_legalEntity, parent, cust_orgLevel, name, status } = department;
-//
-//         departments.push({
-//             externalCode,
-//             startDate: new Date(startDate),
-//             legalEntity: cust_legalEntity,
-//             parent,
-//             orgLevel: cust_orgLevel,
-//             name,
-//             status
-//         });
-//
-//         if (!departmentLevels[cust_orgLevel]) {
-//             departmentLevels[cust_orgLevel] = [];
-//         }
-//         departmentLevels[cust_orgLevel].push({
-//             externalCode,
-//             name
-//         });
-//     });
-//
-//     return {
-//         departments,
-//         departmentLevels
-//     };
-// }
-//
-// const { departments, departmentLevels } = processDepartmentData(jsonData);
-// console.log(departments);
-// console.log(departmentLevels);
+console.log(mergedData);

@@ -1,3 +1,4 @@
+const _ = require('./lodash.min');
 const jsonData = [
     {
         "__metadata": {
@@ -946,4 +947,36 @@ const jsonData = [
     }
 ]
 
-console.log(jsonData);
+// const _jsonData = jsonData.map(o => {
+//     return {
+//         companyName: o.cust_legalEntityNav.name,
+//         cust_orgLevel: o.cust_orgLevel,
+//         parent: o.parent,
+//         externalCode: o.externalCode,
+//         level1: o.cust_orgLevel === '1' ? o.name : '',
+//         level2: o.cust_orgLevel === '2' ? o.name : '',
+//         level3: o.cust_orgLevel === '3'
+//              && o.externalCode === jsonData.find(item => item.parent === o.externalCode)?.externalCode ? item.name : '',
+//         //level4: o.cust_orgLevel === '4' ? o.name : ''
+//     };
+// });
+
+const _jsonData = jsonData.map(o => {
+    return {
+        companyName: o.cust_legalEntityNav.name,
+        cust_orgLevel: o.cust_orgLevel,
+        parent: o.parent,
+        externalCode: o.externalCode,
+        level1: o.cust_orgLevel === '1' ? o.name : '',
+        level2: o.cust_orgLevel === '2' ? o.name : '',
+        level3: o.cust_orgLevel === '3' ? o.name : '',
+        level4: o.cust_orgLevel === '4' ? o.name : '',
+        level5: o.cust_orgLevel === '5' ? o.name : '',
+        level6: o.cust_orgLevel === '6' ? o.name : '',
+        level7: o.cust_orgLevel === '7' ? o.name : '',
+        level8: o.cust_orgLevel === '8' ? o.name : '',
+    };
+});
+
+//console.log(_.orderby(_jsonData,'desc'));
+console.log(_.orderBy(_jsonData, ['cust_orgLevel'], ['asc']));
