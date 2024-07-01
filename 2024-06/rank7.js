@@ -1,5 +1,4 @@
-function assignGradesAndRanks(scores, distribution) {
-    // 점수 내림차순 정렬
+function assignGradesAndRanks(scores, distributionGrade) {
     const sortedScores = scores.sort((a, b) => b.score - a.score);
 
     let gradeIndex = 0;
@@ -8,17 +7,17 @@ function assignGradesAndRanks(scores, distribution) {
     let rank = 0;
     let skipRank = 0;
 
-    const grades = ['S', 'A', 'B', 'C', 'D'];
+    const grades = Object.keys(distributionGrade);
 
     return sortedScores.map((person, index) => {
         if (prevScore !== person.score) {
             rank += 1 + skipRank;
             skipRank = 0;
 
-            if (gradeCount >= distribution[gradeIndex]) {
+            if (gradeCount >= distributionGrade[grades[gradeIndex]]) {
                 gradeIndex++;
-                // B 등급을 건너뛰고 C로 가기 위한 조정
-                if (gradeIndex === 2 && gradeCount > distribution[1]) {
+                // 다음 등급으로 넘어갈 때, 분포가 0인 등급은 건너뛰기
+                while (gradeIndex < grades.length && distributionGrade[grades[gradeIndex]] === 0) {
                     gradeIndex++;
                 }
             }
@@ -61,10 +60,10 @@ const scoresCase2 = [
     { name: "대상자 5", score: 89.56 }
 ];
 
-const distribution = [1, 1, 1, 1, 1]; // S, A, B, C, D 각각 1명씩
+const distributionGrade = { 'S': 1, 'A': 1, 'B': 1, 'C': 1, 'D': 1 };
 
 console.log("Case 1 결과:");
-console.log(assignGradesAndRanks(scoresCase1, distribution));
+console.log(assignGradesAndRanks(scoresCase1, distributionGrade));
 
 console.log("\nCase 2 결과:");
-console.log(assignGradesAndRanks(scoresCase2, distribution));
+console.log(assignGradesAndRanks(scoresCase2, distributionGrade));
