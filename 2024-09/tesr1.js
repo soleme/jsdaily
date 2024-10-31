@@ -8,4 +8,14 @@ const gradeLimits = [
     },
 ]
 
-console.log(gradeLimits[0])
+//let objGradeLimits = Object.entries(gradeLimits);
+//console.log(objGradeLimits);
+
+let cumlative = 0;
+let gradeRanges = [];
+for(let [grade, count] of Object.entries(gradeLimits)) {
+    const min = cumlative + 1;
+    gradeRanges[grade] = { min };
+}
+
+console.log(gradeRanges);
